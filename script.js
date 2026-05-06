@@ -1,12 +1,29 @@
-// 1. Write a function that reads all the posts from the DB
-// 2. Create a form that allows the user to make a POST request and create a new post
+const form = document.getElementById("new-post-form")
+const baseURL = `http://localhost:3000`
 
 const getPosts = async () => {
-    const response = await fetch(`http://localhost:3000/posts`)
+    const response = await fetch(`${baseURL}/posts`)
     const posts = await response.json()
 
-    console.log(posts)
     return posts
 }
 
-getPosts()
+form.addEventListener("submit", async (event) => {
+    event.preventDefault()
+
+    await fetch(
+        `${baseURL}/posts`,
+        {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                body: form.elements.body.value,
+                author: form.elements.user.value
+            })
+        }
+    ).then((response) => {
+        return response.json()
+    })
+
+    form.reset()
+})
