@@ -5,8 +5,33 @@ const getPosts = async () => {
     const response = await fetch(`${baseURL}/posts`)
     const posts = await response.json()
 
+    addPostsToPage(posts)
     return posts
 }
+
+const addPostsToPage = (posts) => {
+    const allPosts = document.getElementById("all-posts")
+    allPosts.innerHTML = ""
+
+    posts.reverse().forEach(post => {
+        const newListItem = document.createElement("li")
+        newListItem.className = "post"
+        const postBody = document.createElement("p")
+        postBody.className = "post-body"
+        const postMeta = document.createElement("p")
+        postMeta.className = "post-meta"
+
+        postBody.innerText = post.body
+        postMeta.innerText = post.author
+
+        newListItem.appendChild(postBody)
+        newListItem.appendChild(postMeta)
+
+        allPosts.appendChild(newListItem)
+    })
+}
+
+getPosts()
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault()
@@ -25,5 +50,6 @@ form.addEventListener("submit", async (event) => {
         return response.json()
     })
 
+    getPosts()
     form.reset()
 })
