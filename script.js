@@ -20,12 +20,25 @@ const addPostsToPage = (posts) => {
         postBody.className = "post-body"
         const postMeta = document.createElement("p")
         postMeta.className = "post-meta"
+        const deleteButton = document.createElement("a")
+        deleteButton.className = "delete-button"
+        deleteButton.innerText = "❌"
 
         postBody.innerText = post.body
         postMeta.innerText = post.author
 
+        deleteButton.addEventListener("click", async () => {
+            await fetch(
+                `${baseURL}/posts/${post._id}`,
+                { method: "DELETE" }
+            )
+
+            getPosts()
+        })
+
         newListItem.appendChild(postBody)
         newListItem.appendChild(postMeta)
+        newListItem.appendChild(deleteButton)
 
         allPosts.appendChild(newListItem)
     })
