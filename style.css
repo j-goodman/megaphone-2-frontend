@@ -107,6 +107,11 @@ button:hover {
   color: #8b8484;
 }
 
+.delete-button {
+    cursor: pointer;
+    margin-top: 32px;
+}
+
 @media (max-width: 560px) {
   #new-post-form {
     grid-template-columns: 1fr;
