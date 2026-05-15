@@ -1,6 +1,6 @@
 const form = document.getElementById("new-post-form")
-// const baseURL = `http://localhost:3000`
 const baseURL = `https://megaphone-server.onrender.com`
+const deleteEnabled = false
 
 const getPosts = async () => {
     const response = await fetch(`${baseURL}/posts`)
@@ -39,7 +39,10 @@ const addPostsToPage = (posts) => {
 
         newListItem.appendChild(postBody)
         newListItem.appendChild(postMeta)
-        newListItem.appendChild(deleteButton)
+
+        if (deleteEnabled) {
+            newListItem.appendChild(deleteButton)
+        }
 
         allPosts.appendChild(newListItem)
     })
