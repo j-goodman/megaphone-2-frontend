@@ -9,9 +9,13 @@
     <link rel="shortcut icon" href="megaphone.png" type="image/png">
 </head>
 <body>
+    <h1 class="app-title">
+        <img src="megaphone.png" alt="Megaphone icon" class="app-title-icon">
+        <span>MEGAPHONE</span>
+    </h1>
     <form id="new-post-form">
         <label for="post-body">Post body:</label>
-        <input type="text" name="body" id="post-body">
+        <textarea name="body" id="post-body" rows="5"></textarea>
         <label for="post-user">Username:</label>
         <input type="text" name="user" id="post-user">
         <button type="submit">POST</button>
