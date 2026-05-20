@@ -103,13 +103,18 @@ button:hover {
 }
 
 .post-meta {
-  margin-top: 6px;
   color: #8b8484;
+  display: flex;
+  flex-direction: row;
+  margin-top: 6px;
+}
+
+.post-meta p {
+  margin: 0 12px;
 }
 
 .delete-button {
     cursor: pointer;
-    margin-top: 32px;
 }
 
 @media (max-width: 560px) {
