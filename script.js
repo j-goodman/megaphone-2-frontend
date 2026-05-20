@@ -19,14 +19,40 @@ const addPostsToPage = (posts) => {
         newListItem.className = "post"
         const postBody = document.createElement("p")
         postBody.className = "post-body"
-        const postMeta = document.createElement("p")
+        const postMeta = document.createElement("div")
         postMeta.className = "post-meta"
         const deleteButton = document.createElement("a")
         deleteButton.className = "delete-button"
         deleteButton.innerText = "❌"
 
         postBody.innerText = post.body
-        postMeta.innerText = post.author
+        
+        usernameLabel = document.createElement("p")
+        usernameLabel.innerText = post.author
+        postMeta.appendChild(usernameLabel)
+
+        const secondsSincePosted = Math.round((Date.now() - post.timecreated) / 1000)
+        let unitOfTime = "second"
+        let numberOfUnits = secondsSincePosted
+
+        if (numberOfUnits >= 60) {
+            unitOfTime = "minute"
+            numberOfUnits = Math.round(numberOfUnits / 60)
+        }
+
+        if (numberOfUnits >= 60) {
+            unitOfTime = "hour"
+            numberOfUnits = Math.round(numberOfUnits / 60)
+        }
+
+        if (numberOfUnits >= 24) {
+            unitOfTime = "day"
+            numberOfUnits = Math.round(numberOfUnits / 24)
+        }
+
+        timeLabel = document.createElement("p")
+        timeLabel.innerText = `posted ${numberOfUnits} ${unitOfTime}${numberOfUnits !== 1 ? "s" : ""} ago.`
+        postMeta.appendChild(timeLabel)
 
         deleteButton.addEventListener("click", async () => {
             await fetch(
@@ -41,7 +67,7 @@ const addPostsToPage = (posts) => {
         newListItem.appendChild(postMeta)
 
         if (deleteEnabled) {
-            newListItem.appendChild(deleteButton)
+            postMeta.appendChild(deleteButton)
         }
 
         allPosts.appendChild(newListItem)
