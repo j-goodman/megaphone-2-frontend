@@ -15,6 +15,10 @@ body {
   color: #111111;
 }
 
+a {
+  text-decoration: none;
+}
+
 .app-title {
   display: flex;
   align-items: center;
@@ -155,7 +159,12 @@ button:hover {
 }
 
 .delete-button {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+.cancel-button {
+  cursor: pointer;
+  font-size: 3em;
 }
 
 @media (max-width: 560px) {
