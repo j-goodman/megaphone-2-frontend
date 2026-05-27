@@ -2,17 +2,46 @@ const form = document.getElementById("new-post-form")
 const baseURL = `https://megaphone-server.onrender.com`
 const deleteEnabled = false
 
-const getPosts = async () => {
+const getPosts = async (username=null) => {
     const response = await fetch(`${baseURL}/posts`)
-    const posts = await response.json()
+    let posts = await response.json()
 
+    if (username) {
+        posts = posts.filter(post => {
+            return post.author === username
+        })
+        addPostsWithUserInfo(posts)
+        return posts
+    }
+
+    const allPosts = document.getElementById("all-posts")
+    allPosts.innerHTML = ""
     addPostsToPage(posts)
     return posts
 }
 
+const addPostsWithUserInfo = (posts) => {
+    const allPosts = document.getElementById("all-posts")
+    
+    const cancelButton = document.createElement("a")
+    cancelButton.className = "cancel-button"
+    cancelButton.innerText = "×"
+
+    cancelButton.addEventListener("click", () => {
+        getPosts()
+    })
+
+    const userDescription = document.createElement("p")
+    userDescription.innerText = `Posts by ${posts[0].author}: ${posts.length}`
+
+    allPosts.innerHTML = ""
+    allPosts.appendChild(userDescription)
+    allPosts.appendChild(cancelButton)
+    addPostsToPage(posts)
+}
+
 const addPostsToPage = (posts) => {
     const allPosts = document.getElementById("all-posts")
-    allPosts.innerHTML = ""
 
     posts.reverse().forEach(post => {
         const newListItem = document.createElement("li")
@@ -27,8 +56,10 @@ const addPostsToPage = (posts) => {
 
         postBody.innerText = post.body
         
-        usernameLabel = document.createElement("p")
+        usernameLabel = document.createElement("a")
+        usernameLabel.href = "#"
         usernameLabel.innerText = post.author
+        usernameLabel.addEventListener("click", usernameClickEvent)
         postMeta.appendChild(usernameLabel)
 
         const secondsSincePosted = Math.round((Date.now() - post.timecreated) / 1000)
@@ -75,6 +106,10 @@ const addPostsToPage = (posts) => {
 }
 
 getPosts()
+
+const usernameClickEvent = (event) => {
+    getPosts(event.target.innerText)
+}
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault()
